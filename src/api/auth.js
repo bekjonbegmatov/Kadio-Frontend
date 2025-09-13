@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 // Базовый URL для API
-const API_BASE_URL = 'http://192.168.0.11:8000/api/auth';
+import { BASE_URL } from './config';
 
+const API_BASE_URL = BASE_URL;
 // Регистрация пользователя
 export const registerUser = async (userData) => {
   try {
@@ -14,7 +15,7 @@ export const registerUser = async (userData) => {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `${API_BASE_URL}/register/`,
+      url: `${API_BASE_URL}/api/auth/register/`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -45,7 +46,7 @@ export const loginUser = async (credentials) => {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `${API_BASE_URL}/login/`,
+      url: `${API_BASE_URL}/api/auth/login/`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -109,7 +110,7 @@ export const getUserProfile = async () => {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${API_BASE_URL}/profile/`,
+      url: `${API_BASE_URL}/api/auth/profile/`,
       headers: {
         'Authorization': `Token ${token}`,
         'Cache-Control': 'no-cache'
@@ -153,7 +154,7 @@ export const uploadAvatar = async (file) => {
     const formData = new FormData();
     formData.append('avatar', file);
 
-    const response = await fetch(`http://192.168.0.11:8000/api/auth/profile/upload-avatar/`, {
+    const response = await fetch(`${API_BASE_URL}/api/auth/profile/upload-avatar/`, {
       method: 'POST',
       headers: {
         'Authorization': `Token ${token}`,
@@ -185,7 +186,7 @@ export const getUserActivity = async () => {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `http://192.168.0.11:8000/api/activitys/user/`,
+      url: `${API_BASE_URL}/api/activitys/user/`,
       headers: {
         'Authorization': `Token ${token}`,
         'Cache-Control': 'no-cache'
@@ -246,7 +247,7 @@ export const updateProfile = async (profileData) => {
     const config = {
       method: 'put',
       maxBodyLength: Infinity,
-      url: `${API_BASE_URL}/profile/update/`,
+      url: `${API_BASE_URL}/api/auth/profile/update/`,
       headers: {
         'Authorization': `Token ${token}`,
         'Content-Type': 'multipart/form-data',
