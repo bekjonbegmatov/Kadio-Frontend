@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   FiUser, FiUsers, FiFileText, FiMessageCircle, FiTrendingUp,
   FiAward, FiTarget, FiStar, FiEdit3, FiImage, FiBook, 
@@ -6,7 +6,7 @@ import {
 } from 'react-icons/fi';
 import { HiUserGroup } from 'react-icons/hi';
 import { IoTrophyOutline } from 'react-icons/io5';
-import { getUserProfile } from '../../api/auth';
+import { useProfile } from '../../store/ProfileContext';
 
 import { Link } from 'react-router-dom';
 
@@ -14,8 +14,7 @@ import './Sidebar.css';
 
 const Sidebar = ({ width = 380, isCollapsed = false, onToggle }) => {
   const [activeItem, setActiveItem] = useState('news');
-  const [userProfile, setUserProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { profile, loading } = useProfile();
 
   const socialItems = [
     { id: 'feed', name: 'Лента', icon: FiRss, badge: null, link: '/feed' },
@@ -30,20 +29,7 @@ const Sidebar = ({ width = 380, isCollapsed = false, onToggle }) => {
     { id: 'contests', name: 'Конкурсы', icon: FiAward, badge: null, link: '/contests' }
   ];
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const profile = await getUserProfile();
-        setUserProfile(profile);
-      } catch (error) {
-        console.error('Ошибка загрузки профиля:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchUserProfile();
-  }, []);
 
   const handleItemClick = (itemId) => {
     setActiveItem(itemId);
@@ -62,7 +48,7 @@ const Sidebar = ({ width = 380, isCollapsed = false, onToggle }) => {
             <div className="avatar-placeholder">👤</div>
           ) : (
             <img 
-              src={userProfile?.data?.avatar_url || ''} 
+              src={profile?.avatar_url || ''} 
               alt="Avatar" 
               onError={(e) => {
                 e.target.src = '';
@@ -72,8 +58,8 @@ const Sidebar = ({ width = 380, isCollapsed = false, onToggle }) => {
         </div>
         {!isCollapsed && (
           <div className="user-info">
-            <h4>{loading ? 'Загрузка...' : (userProfile?.data?.email || 'Пользователь')}</h4>
-            <p>{loading ? 'Загрузка...' : ('@' + (userProfile?.data?.username || 'Пользователь'))}</p>
+            <h4>{loading ? 'Загрузка...' : (profile?.email || 'Пользователь')}</h4>
+            <p>{loading ? 'Загрузка...' : ('@' + (profile?.username || 'Пользователь'))}</p>
           </div>
         )}
       </Link>

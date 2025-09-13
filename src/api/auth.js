@@ -143,50 +143,34 @@ export const getUserProfile = async () => {
 };
 
 // Загрузка аватара пользователя
-export const uploadAvatar = async (avatarFile) => {
+export const uploadAvatar = async (file) => {
   try {
     const token = getAuthToken();
     if (!token) {
-      throw new Error('No authentication token found');
-    }
-
-    // Проверка размера файла (максимум 5МБ)
-    const maxSize = 5 * 1024 * 1024; // 5MB в байтах
-    if (avatarFile.size > maxSize) {
-      throw new Error('Размер файла не должен превышать 5МБ');
-    }
-
-    // Проверка типа файла
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-    if (!allowedTypes.includes(avatarFile.type)) {
-      throw new Error('Поддерживаются только изображения (JPEG, PNG, GIF, WebP)');
+      return { success: false, error: 'Токен не найден' };
     }
 
     const formData = new FormData();
-    formData.append('avatar', avatarFile);
+    formData.append('avatar', file);
 
-    const config = {
-      method: 'post',
-      maxBodyLength: Infinity,
-      url: `${API_BASE_URL}/profile/upload-avatar/`,
+    const response = await fetch(`http://192.168.0.11:8000/api/auth/profile/upload-avatar/`, {
+      method: 'POST',
       headers: {
         'Authorization': `Token ${token}`,
-        'Content-Type': 'multipart/form-data'
       },
-      data: formData
-    };
+      body: formData,
+    });
 
-    const response = await axios.request(config);
-    return {
-      success: true,
-      data: response.data
-    };
+    if (response.ok) {
+      const data = await response.json();
+      return { success: true, data };
+    } else {
+      const errorData = await response.json();
+      return { success: false, error: errorData.message || 'Ошибка загрузки аватара' };
+    }
   } catch (error) {
-    console.error('Avatar upload error:', error);
-    return {
-      success: false,
-      error: error.message || error.response?.data || 'Ошибка загрузки аватара'
-    };
+    console.error('Ошибка при загрузке аватара:', error);
+    return { success: false, error: 'Произошла ошибка при загрузке аватара' };
   }
 };
 
@@ -237,6 +221,55 @@ export const getUserActivity = async () => {
 // Пример использования:
 // 
 // Регистрация:
+// Обновление профиля пользователя
+export const updateProfile = async (profileData) => {
+  try {
+    const token = getAuthToken();
+    if (!token) {
+      throw new Error('Токен авторизации не найден');
+    }
+
+    const formData = new FormData();
+    
+    // Добавляем все поля профиля в FormData
+    if (profileData.username) formData.append('username', profileData.username);
+    if (profileData.email) formData.append('email', profileData.email);
+    if (profileData.full_name) formData.append('full_name', profileData.full_name);
+    if (profileData.bio) formData.append('bio', profileData.bio);
+    if (profileData.user_time_zone) formData.append('user_time_zone', profileData.user_time_zone);
+    if (profileData.date_of_birth) formData.append('date_of_birth', profileData.date_of_birth);
+    if (profileData.link) formData.append('link', profileData.link);
+    if (profileData.interests) {
+      formData.append('interests', JSON.stringify(profileData.interests));
+    }
+
+    const config = {
+      method: 'put',
+      maxBodyLength: Infinity,
+      url: `${API_BASE_URL}/profile/update/`,
+      headers: {
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData
+    };
+
+    const response = await axios.request(config);
+    return {
+      success: true,
+      data: response.data
+    };
+  } catch (error) {
+    console.error('Profile update error:', error);
+    return {
+      success: false,
+      error: error.response?.data || error.message
+    };
+  }
+};
+
+// Примеры использования:
+// Регистрация:
 // const result = await registerUser({
 //   email: 'behruz@begmatov.com',
 //   password: '1976791155',
@@ -251,3 +284,10 @@ export const getUserActivity = async () => {
 //
 // Получение активности:
 // const result = await getUserActivity();
+//
+// Обновление профиля:
+// const result = await updateProfile({
+//   username: 'newusername',
+//   bio: 'New bio text',
+//   interests: { hobby: ['React', 'JavaScript'] }
+// });

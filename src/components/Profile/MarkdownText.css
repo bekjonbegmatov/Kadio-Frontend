@@ -1,0 +1,54 @@
+.markdown-text {
+  line-height: 1.6;
+  color: inherit;
+  word-wrap: break-word;
+}
+
+.markdown-text strong {
+  font-weight: 600;
+  color: inherit;
+  opacity: 0.9;
+}
+
+.markdown-text em {
+  font-style: italic;
+  color: inherit;
+  opacity: 0.8;
+}
+
+.markdown-text del {
+  text-decoration: line-through;
+  color: inherit;
+  opacity: 0.6;
+}
+
+.markdown-text code {
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+  color: #e83e8c;
+}
+
+.markdown-text br {
+  line-height: 1.6;
+}
+
+/* Для темной темы */
+@media (prefers-color-scheme: dark) {
+  .markdown-text code {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ff6b9d;
+  }
+}
+
+/* Дополнительная поддержка для темной темы через класс */
+.dark-theme .markdown-text code,
+[data-theme="dark"] .markdown-text code {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ff6b9d;
+}

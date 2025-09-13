@@ -9,6 +9,9 @@ import ProfilePage from '../pages/ProfilePage';
 
 import { isAuthenticated } from '../api/auth';
 
+// Pages
+import FriendsPage from '../pages/Frends/FrendsPage';
+
 const AppRouter = () => {
   const userIsAuthenticated = isAuthenticated();
 
@@ -27,6 +30,9 @@ const AppRouter = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/auth" element={<Navigate to="/" replace />} />
+
+            <Route path="/friends" element={<FriendsPage />} />
+
           </Routes>
         </Layout>
       ) : (
