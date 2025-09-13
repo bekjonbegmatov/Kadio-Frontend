@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Navbar from './Navbar';
-import Sidebar from './Sidebar';
+import Navbar from '../Navigation/Navbar';
+import Sidebar from '../Navigation/Sidebar';
 
 const Layout = ({ children }) => {
-  const [sidebarWidth, setSidebarWidth] = useState(250);
+  const [sidebarWidth, setSidebarWidth] = useState(280);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const handleSidebarToggle = () => {

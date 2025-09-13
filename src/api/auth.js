@@ -101,24 +101,25 @@ export const isAuthenticated = () => {
 // Получение профиля пользователя
 export const getUserProfile = async () => {
   try {
-    // Временная заглушка для демонстрации
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    const token = getAuthToken();
+    if (!token) {
+      throw new Error('No authentication token found');
+    }
+
+    const config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${API_BASE_URL}/profile/`,
+      headers: {
+        'Authorization': `Token ${token}`,
+        'Cache-Control': 'no-cache'
+      }
+    };
+
+    const response = await axios.request(config);
     return {
       success: true,
-      data: {
-        username: 'Пользователь',
-        email: 'user@example.com',
-        level: 5,
-        streak_days: 12,
-        bio: 'Изучаю программирование и развиваюсь в IT сфере',
-        interests: {
-          languages: ['JavaScript', 'Python', 'React']
-        },
-        user_time_zone: 'UTC+5',
-        last_active: new Date().toISOString(),
-        avatar_url: ''
-      }
+      data: response.data
     };
   } catch (error) {
     console.error('Profile fetch error:', error);

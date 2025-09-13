@@ -1,35 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  FiUser, FiUsers, FiFileText, FiShoppingBag, FiCheckSquare, 
+  FiUser, FiUsers, FiFileText, FiMessageCircle, FiTrendingUp,
   FiAward, FiTarget, FiStar, FiEdit3, FiImage, FiBook, 
-  FiBriefcase, FiShield, FiBarChart, FiMap 
+  FiBriefcase, FiShield, FiBarChart, FiMap, FiRss 
 } from 'react-icons/fi';
-import { getUserProfile } from '../api/auth';
+import { HiUserGroup } from 'react-icons/hi';
+import { IoTrophyOutline } from 'react-icons/io5';
+import { getUserProfile } from '../../api/auth';
+
+import { Link } from 'react-router-dom';
+
 import './Sidebar.css';
 
-const Sidebar = ({ width = 280, isCollapsed = false, onToggle }) => {
+const Sidebar = ({ width = 380, isCollapsed = false, onToggle }) => {
   const [activeItem, setActiveItem] = useState('news');
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const menuItems = [
-    { id: 'news', name: 'Новости', icon: FiFileText, badge: null },
-    { id: 'colleagues', name: 'Коллеги', icon: FiUsers, badge: null },
-    { id: 'hero', name: 'Герой', icon: FiShield, badge: null },
-    { id: 'achievements', name: 'Достижения', icon: FiAward, badge: null },
-    { id: 'shop', name: 'Магазин', icon: FiShoppingBag, badge: null },
-    { id: 'tasks', name: 'Задания', icon: FiCheckSquare, badge: null },
-    { id: 'contests', name: 'Конкурсы', icon: FiTarget, badge: null },
-    { id: 'quests', name: 'Квесты', icon: FiMap, badge: null },
-    { id: 'ratings', name: 'Рейтинги', icon: FiBarChart, badge: null }
+  const socialItems = [
+    { id: 'feed', name: 'Лента', icon: FiRss, badge: null, link: '/feed' },
+    { id: 'friends', name: 'Друзья', icon: FiUsers, badge: null, link: '/friends' },
+    { id: 'chats', name: 'Чаты', icon: FiMessageCircle, badge: null, link: '/chats' },
+    { id: 'groups', name: 'Группы', icon: HiUserGroup, badge: null, link: '/groups' }
   ];
 
-  const contentItems = [
-    { id: 'applications', name: 'Заявки', icon: FiEdit3, badge: null },
-    { id: 'gallery', name: 'Галерея', icon: FiImage, badge: null },
-    { id: 'materials', name: 'Материалы', icon: FiBook, badge: null },
-    { id: 'documents', name: 'Документы', icon: FiFileText, badge: null },
-    { id: 'company', name: 'Компания', icon: FiBriefcase, badge: null }
+  const gameItems = [
+    { id: 'challenges', name: 'Челленджи', icon: FiTarget, badge: null, link: '/challenges' },
+    { id: 'leaderboard', name: 'Leaderboard', icon: IoTrophyOutline, badge: null, link: '/leaderboard' },
+    { id: 'contests', name: 'Конкурсы', icon: FiAward, badge: null, link: '/contests' }
   ];
 
   useEffect(() => {
@@ -58,13 +56,13 @@ const Sidebar = ({ width = 280, isCollapsed = false, onToggle }) => {
       style={{ width: isCollapsed ? '60px' : `${width}px` }}
     >
       {/* Профиль пользователя */}
-      <div className="user-profile">
+      <Link to="/profile" className="user-profile">
         <div className="avatar">
           {loading ? (
             <div className="avatar-placeholder">👤</div>
           ) : (
             <img 
-              src={userProfile?.avatar || ''} 
+              src={userProfile?.data?.avatar_url || ''} 
               alt="Avatar" 
               onError={(e) => {
                 e.target.src = '';
@@ -74,46 +72,25 @@ const Sidebar = ({ width = 280, isCollapsed = false, onToggle }) => {
         </div>
         {!isCollapsed && (
           <div className="user-info">
-            <h4>{loading ? 'Загрузка...' : (userProfile?.name || 'Пользователь')}</h4>
+            <h4>{loading ? 'Загрузка...' : (userProfile?.data?.email || 'Пользователь')}</h4>
+            <p>{loading ? 'Загрузка...' : ('@' + (userProfile?.data?.username || 'Пользователь'))}</p>
           </div>
         )}
-      </div>
+      </Link>
       
-      {/* Игровая секция */}
-      {!isCollapsed && (
-        <div className="game-section">
-          <span className="section-label">Игра</span>
-        </div>
-      )}
       
-      {/* Основное меню */}
+      {/* Социальная секция */}
       <div className="sidebar-content">
-        {menuItems.map(item => (
-          <div 
-            key={item.id}
-            className={`menu-item ${activeItem === item.id ? 'active' : ''}`}
-            onClick={() => handleItemClick(item.id)}
-          >
-            <span className="menu-icon"><item.icon /></span>
-            {!isCollapsed && (
-              <>
-                <span className="menu-name">{item.name}</span>
-                {item.badge && <span className="menu-badge">{item.badge}</span>}
-              </>
-            )}
-          </div>
-        ))}
-        
-        {/* Контент секция */}
         {!isCollapsed && (
           <div className="section-divider">
-            <span className="section-label">Контент</span>
+            <span className="section-label">Социальное</span>
           </div>
         )}
         
-        {contentItems.map(item => (
-          <div 
+        {socialItems.map(item => (
+          <Link 
             key={item.id}
+            to={item.link}
             className={`menu-item ${activeItem === item.id ? 'active' : ''}`}
             onClick={() => handleItemClick(item.id)}
           >
@@ -124,7 +101,31 @@ const Sidebar = ({ width = 280, isCollapsed = false, onToggle }) => {
                 {item.badge && <span className="menu-badge">{item.badge}</span>}
               </>
             )}
+          </Link>
+        ))}
+        
+        {/* Игровая секция */}
+        {!isCollapsed && (
+          <div className="section-divider">
+            <span className="section-label">Игры и Конкурсы</span>
           </div>
+        )}
+        
+        {gameItems.map(item => (
+          <Link 
+            key={item.id}
+            to={item.link}
+            className={`menu-item ${activeItem === item.id ? 'active' : ''}`}
+            onClick={() => handleItemClick(item.id)}
+          >
+            <span className="menu-icon"><item.icon /></span>
+            {!isCollapsed && (
+              <>
+                <span className="menu-name">{item.name}</span>
+                {item.badge && <span className="menu-badge">{item.badge}</span>}
+              </>
+            )}
+          </Link>
         ))}
       </div>
     </div>

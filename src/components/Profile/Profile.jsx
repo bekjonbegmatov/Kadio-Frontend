@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUserProfile } from '../api/auth';
+import { getUserProfile } from '../../api/auth';
 import AvatarUpload from './AvatarUpload';
 import './Profile.css';
 

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { uploadAvatar } from '../api/auth';
+import { uploadAvatar } from '../../api/auth';
 import './AvatarUpload.css';
 
 const AvatarUpload = ({ currentAvatar, onAvatarUpdate }) => {
