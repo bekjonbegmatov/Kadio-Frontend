@@ -1,0 +1,131 @@
+/* Календарь активности */
+.custom-calendar {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    max-width: 800px;
+    width: 100%;
+}
+
+.calendar-grid {
+    display: grid;
+    gap: var(--day-gap, 4px);
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.calendar-day {
+    min-height: var(--day-size, 40px);
+    width: var(--day-size, 40px);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--day-font-size, 12px);
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    position: relative;
+    font-family: 'Inter', sans-serif;
+}
+
+.calendar-day.has-day {
+    border-color: rgba(102, 126, 234, 0.1);
+}
+
+.calendar-day.has-activity {
+    cursor: pointer;
+    transform: scale(1);
+}
+
+.calendar-day.has-activity:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+}
+
+.calendar-day.selected {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+    transform: scale(1.05);
+}
+
+.calendar-day.empty-day {
+    background: transparent;
+    cursor: default;
+}
+
+.calendar-legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #718096;
+}
+
+.legend-label {
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+.legend-colors {
+    display: flex;
+    gap: 3px;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Анимации */
+@keyframes calendarFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.custom-calendar {
+    animation: calendarFadeIn 0.6s ease forwards;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .custom-calendar {
+        padding: 16px;
+        max-width: 100%;
+    }
+    
+    .calendar-day {
+        min-height: var(--day-size-mobile, 30px);
+        width: var(--day-size-mobile, 30px);
+        font-size: var(--day-font-size-mobile, 11px);
+    }
+    
+    .calendar-legend {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .legend-colors {
+        gap: 4px;
+    }
+    
+    .legend-color {
+        width: 14px;
+        height: 14px;
+    }
+}

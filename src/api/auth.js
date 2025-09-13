@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Базовый URL для API
-const API_BASE_URL = 'http://127.0.0.1:8000/api/auth';
+const API_BASE_URL = 'http://192.168.0.11:8000/api/auth';
 
 // Регистрация пользователя
 export const registerUser = async (userData) => {
@@ -123,6 +123,18 @@ export const getUserProfile = async () => {
     };
   } catch (error) {
     console.error('Profile fetch error:', error);
+    
+    // Если получили 401 ошибку, очищаем localStorage и перезагружаем страницу
+    if (error.response?.status === 401) {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      window.location.reload();
+      return {
+        success: false,
+        error: 'Unauthorized - redirecting to login'
+      };
+    }
+    
     return {
       success: false,
       error: error.response?.data || error.message
@@ -178,6 +190,50 @@ export const uploadAvatar = async (avatarFile) => {
   }
 };
 
+// Получение активности пользователя
+export const getUserActivity = async () => {
+  try {
+    const token = getAuthToken();
+    if (!token) {
+      throw new Error('No authentication token found');
+    }
+
+    const config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `http://192.168.0.11:8000/api/activitys/user/`,
+      headers: {
+        'Authorization': `Token ${token}`,
+        'Cache-Control': 'no-cache'
+      }
+    };
+
+    const response = await axios.request(config);
+    return {
+      success: true,
+      data: response.data
+    };
+  } catch (error) {
+    console.error('Activity fetch error:', error);
+    
+    // Если получили 401 ошибку, очищаем localStorage и перезагружаем страницу
+    if (error.response?.status === 401) {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      window.location.reload();
+      return {
+        success: false,
+        error: 'Unauthorized - redirecting to login'
+      };
+    }
+    
+    return {
+      success: false,
+      error: error.response?.data || error.message
+    };
+  }
+};
+
 // Пример использования:
 // 
 // Регистрация:
@@ -192,3 +248,6 @@ export const uploadAvatar = async (avatarFile) => {
 //   email: 'dsfdf@fdsdf.com',
 //   password: '1976791155'
 // });
+//
+// Получение активности:
+// const result = await getUserActivity();

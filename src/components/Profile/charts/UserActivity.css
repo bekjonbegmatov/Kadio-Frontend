@@ -1,0 +1,600 @@
+.activity-header h2 {
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.activity-subtitle {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin: 0 0 20px 0;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards 0.3s;
+}
+
+/* Кнопки переключения режимов */
+.view-mode-toggle {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    justify-content: center;
+}
+
+.toggle-btn {
+    padding: 10px 20px;
+    border: 2px solid #e2e8f0;
+    background: #ffffff;
+    color: #64748b;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.toggle-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.toggle-btn.active:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Кастомный календарь */
+.custom-calendar-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards 0.5s;
+}
+
+.custom-calendar {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    max-width: 800px;
+    width: 100%;
+}
+
+.calendar-header {
+    text-align: center;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.calendar-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d3748;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.calendar-size-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.size-label {
+    font-size: 12px;
+    color: #718096;
+    font-weight: 500;
+}
+
+.size-slider {
+    width: 80px;
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.size-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--day-size, 35px), 1fr));
+    gap: var(--day-gap, 3px);
+    max-width: 100%;
+    justify-content: center;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--day-font-size, 12px);
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    position: relative;
+    min-height: var(--day-size, 35px);
+    width: var(--day-size, 35px);
+}
+
+.calendar-day.empty-day {
+    cursor: default;
+    visibility: hidden;
+}
+
+.calendar-day.has-day {
+    color: #2d3748;
+}
+
+.calendar-day.has-activity:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    z-index: 10;
+}
+
+.calendar-day.selected {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    transform: scale(1.05);
+}
+
+.calendar-day:not(.empty-day):not(.has-activity):hover {
+    background-color: #f7fafc !important;
+    transform: scale(1.05);
+}
+
+.calendar-legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #718096;
+    margin-top: 12px;
+}
+
+.legend-colors {
+    display: flex;
+    gap: 2px;
+}
+
+.legend-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    border: 1px solid #e2e8f0;
+}
+
+.legend-label {
+    font-weight: 500;
+}
+
+/* Загрузка */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+.loading-spinner p {
+    font-size: 14px;
+    margin: 0;
+    opacity: 0.8;
+}
+
+/* Ошибка */
+.error-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #e74c3c;
+}
+
+.error-message p {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+}
+
+.retry-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Секция деталей дня */
+.day-details-section {
+    margin-top: 24px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideInUp 0.4s ease forwards;
+}
+
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.details-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.activity-summary {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.activity-count-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.activity-list-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activity-item-modal {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    animation: slideInUp 0.4s ease forwards;
+}
+
+.activity-item-modal:hover {
+    border-color: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.15);
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+}
+
+.activity-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.activity-time-modal {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 500;
+    font-family: 'Inter', monospace;
+    background: #f3f4f6;
+    padding: 4px 12px;
+    border-radius: 8px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.activity-action-modal {
+    font-size: 15px;
+    color: #1a202c;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.4;
+}
+
+.no-activity-modal {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6b7280;
+    font-style: italic;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 16px;
+    border: 2px dashed #e2e8f0;
+    font-family: 'Inter', sans-serif;
+}
+
+.no-activity-modal p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Модальное окно */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(20px);
+  padding: 20px;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 48px 40px;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 32px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  animation: modalSlideIn 0.6s ease-out;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #1a202c;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.modal-close {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  color: #333;
+}
+
+.modal-body {
+  position: relative;
+}
+
+.activity-summary {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.activity-count-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  font-family: 'Inter', sans-serif;
+}
+
+.activity-list-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-item-modal {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.2s ease;
+}
+
+.activity-item-modal:hover {
+  background: #ffffff;
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+}
+
+.activity-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.activity-time-modal {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+}
+
+.activity-action-modal {
+  flex: 1;
+  font-size: 14px;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.no-activity-modal {
+  text-align: center;
+  padding: 40px 20px;
+  color: #718096;
+}
+
+.no-activity-modal p {
+  margin: 0;
+  font-size: 16px;
+  font-style: italic;
+}
+
+
+
+.activity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.activity-time-modal {
+  font-size: 12px;
+  color: var(--gray-500);
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.activity-action-modal {
+  font-size: 14px;
+  color: var(--gray-800);
+  font-weight: 500;
+  line-height: 1.4;
+  font-family: 'Inter', sans-serif;
+}
+
+.no-activity-modal {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--gray-500);
+}
+
+.no-activity-modal p {
+  margin: 0;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+}

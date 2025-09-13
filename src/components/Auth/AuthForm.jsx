@@ -112,7 +112,10 @@ const AuthForm = () => {
 
         window.location.href = '/';
       } else {
-        setMessage(`Ошибка: ${JSON.stringify(result.error)}`);
+        const errorMessage = typeof result.error === 'object' ? 
+          (result.error.message || result.error.detail || 'Неизвестная ошибка') : 
+          result.error;
+        setMessage(`Ошибка: ${errorMessage}`);
       }
     } catch (error) {
       setMessage(`Произошла ошибка: ${error.message}`);

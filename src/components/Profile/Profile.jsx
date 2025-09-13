@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { getUserProfile } from '../../api/auth';
-import AvatarUpload from './AvatarUpload';
+
 import './Profile.css';
+
+import UserActivity from './charts/UserActivity';
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -58,64 +60,28 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <div className="profile-card">
-        <div className="profile-header">
-          <div className="avatar-section">
-            <AvatarUpload 
-              currentAvatar={profile.avatar_url}
-              onAvatarUpdate={(newAvatarUrl) => {
-                setProfile(prev => ({ ...prev, avatar_url: newAvatarUrl }));
-              }}
-            />
+      <div className="profile_div">
+        <div className="profile_things">
+          <div className="profile_photo">
+            <img src={profile.avatar_url || null} width={300} alt="" srcSet="" />
           </div>
-          <div className="profile-info">
-            <h2 className="username">{profile.username}</h2>
-            <p className="email">{profile.email}</p>
-            <div className="stats">
-              <div className="stat-item">
-                <span className="stat-label">Уровень:</span>
-                <span className="stat-value">{profile.level}</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-label">Дни подряд:</span>
-                <span className="stat-value">{profile.streak_days}</span>
-              </div>
+
+          <div className="user_hobbys">
+            <h3>Интересы</h3>
+            <div className="hobby_tags">
+              {profile.interests?.hobby?.map((hobby, index) => (
+                <span key={index} className="hobby_tag">{hobby}</span>
+              )) || <span className="no-data">Не указано</span>}
             </div>
           </div>
         </div>
-        
-        <div className="profile-details">
-          <div className="bio-section">
-            <h3>О себе</h3>
-            <p className="bio">{profile.bio || 'Информация не указана'}</p>
-          </div>
-          
-          <div className="interests-section">
-            <h3>Интересы</h3>
-            <div className="languages">
-              <span className="section-label">Языки программирования:</span>
-              <div className="language-tags">
-                {profile.interests?.languages?.map((lang, index) => (
-                  <span key={index} className="language-tag">{lang}</span>
-                )) || <span className="no-data">Не указано</span>}
-              </div>
-            </div>
-          </div>
-          
-          <div className="meta-info">
-            <div className="meta-item">
-              <span className="meta-label">Часовой пояс:</span>
-              <span className="meta-value">{profile.user_time_zone}</span>
-            </div>
-            <div className="meta-item">
-              <span className="meta-label">Последняя активность:</span>
-              <span className="meta-value">
-                {new Date(profile.last_active).toLocaleString('ru-RU')}
-              </span>
-            </div>
-          </div>
+
+        <div className="profile_info">
+          <UserActivity />
         </div>
       </div>
+      
+
     </div>
   );
 };

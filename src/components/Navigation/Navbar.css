@@ -71,13 +71,6 @@
   transition: all 0.3s ease;
 }
 
-.stat-item:hover {
-  transform: translateY(-2px);
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.15);
-  border-color: rgba(79, 70, 229, 0.2);
-}
 .img-icon {
   width: 32px;
   height: 32px;
