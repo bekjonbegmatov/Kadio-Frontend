@@ -48,10 +48,10 @@ const Sidebar = ({ width = 380, isCollapsed = false, onToggle }) => {
             <div className="avatar-placeholder">👤</div>
           ) : (
             <img 
-              src={profile?.avatar_url || ''} 
+              src={profile?.avatar_url && profile.avatar_url.trim() ? profile.avatar_url : null} 
               alt="Avatar" 
               onError={(e) => {
-                e.target.src = '';
+                e.target.src = null;
               }}
             />
           )}

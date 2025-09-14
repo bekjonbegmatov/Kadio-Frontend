@@ -62,7 +62,7 @@ const Profile = () => {
       <div className="profile_div">
         <div className="profile_things">
           <div className="profile_photo">
-            <img src={profile.avatar_url || null} width={300} alt="" srcSet="" />
+            <img src={profile.avatar_url && profile.avatar_url.trim() ? profile.avatar_url : null} width={300} alt="" srcSet="" />
           </div>
 
           <div className="user_hobbys">

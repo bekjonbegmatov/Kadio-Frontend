@@ -165,7 +165,7 @@ const ProfileEditForm = ({ isOpen, onClose }) => {
             <div className="avatar-upload">
               <div className="avatar-preview" onClick={handleAvatarClick}>
                 <img 
-                  src={avatarPreview || profile?.avatar_url || '/default-avatar.png'} 
+                  src={avatarPreview || (profile?.avatar_url && profile.avatar_url.trim() ? profile.avatar_url : '/default-avatar.png')} 
                   alt="Avatar" 
                   className="avatar-image"
                 />
