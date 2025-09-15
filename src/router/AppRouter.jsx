@@ -40,10 +40,10 @@ const AppRouter = () => {
             <Route path="/friends" element={<FriendsPage />} />
             <Route path="/leaderboard" element={<LeaderBoard />} />
             <Route path="/chats" element={<ChatsPage />} />
+            
             <Route path="/courses" element={<CoursesPage />} />
-            <Route path="/courses/my" element={<CoursesListPage category="my" />} />
+            <Route path="/courses/my" element={<CoursesListPage category="my-courses" />} />
             <Route path="/courses/available" element={<CoursesListPage category="available" />} />
-            <Route path="/courses/coming-soon" element={<CoursesListPage category="coming-soon" />} />
             <Route path="/courses/all" element={<CoursesListPage category="all" />} />
             <Route path="/courses/:courseId" element={<CourseDetailPage />} />
             <Route path="/courses/:courseId/lessons/:lessonId" element={<LessonPage />} />

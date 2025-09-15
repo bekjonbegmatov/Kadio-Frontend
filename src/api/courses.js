@@ -318,10 +318,39 @@ export const getAvailableCourses = async () => {
       success: true,
       data: response.data.data,
       count: response.data.count,
-      userLevel: response.data.user_level
+      userLevel: response.data.user_level,
+      userBalance: response.data.user_balance
     };
   } catch (error) {
     console.error('Get available courses error:', error);
+    return {
+      success: false,
+      error: error.response?.data?.error || error.message
+    };
+  }
+};
+
+// Получение всех курсов с информацией о покупке
+export const getAllCoursesWithPurchaseInfo = async () => {
+  try {
+    const token = getAuthToken();
+    const response = await axios.get(
+      `${API_BASE_URL}/cours/user/courses/all/`,
+      {
+        headers: {
+          'Authorization': `Token ${token}`
+        }
+      }
+    );
+    return {
+      success: true,
+      data: response.data.data,
+      count: response.data.count,
+      userLevel: response.data.user_level,
+      userBalance: response.data.user_balance
+    };
+  } catch (error) {
+    console.error('Get all courses with purchase info error:', error);
     return {
       success: false,
       error: error.response?.data?.error || error.message
@@ -387,6 +416,7 @@ export const coursesAPI = {
   searchCourses,
   getCoursesByLevel,
   getAvailableCourses,
+  getAllCoursesWithPurchaseInfo,
   getLessonById,
   addLessonComment
 };

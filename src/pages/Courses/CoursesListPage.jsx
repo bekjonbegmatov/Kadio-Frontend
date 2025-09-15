@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { FiBook, FiClock, FiUsers, FiStar, FiLock, FiPlay, FiEye, FiArrowLeft } from 'react-icons/fi';
-import { coursesAPI } from '../../api/courses';
+import { getUserCourses, getAvailableCourses, getCourses, getAllCoursesWithPurchaseInfo, coursesAPI } from '../../api/courses';
 import './CoursesPage.css';
 
 const CoursesListPage = () => {
@@ -14,25 +14,25 @@ const CoursesListPage = () => {
   // Определяем заголовок и описание на основе категории
   const getCategoryInfo = () => {
     switch (category) {
-      case 'available':
-        return {
-          title: 'Доступные курсы',
-          description: 'Курсы, которые вы можете изучать прямо сейчас'
-        };
-      case 'coming-soon':
-        return {
-          title: 'Скоро доступные',
-          description: 'Курсы, которые скоро будут доступны для изучения'
-        };
       case 'my-courses':
         return {
           title: 'Мои курсы',
-          description: 'Курсы, на которые вы записаны'
+          description: 'Курсы, которые вы купили'
+        };
+      case 'available':
+        return {
+          title: 'Доступные курсы',
+          description: 'Курсы, доступные для покупки'
+        };
+      case 'all':
+        return {
+          title: 'Все курсы',
+          description: 'Полный каталог курсов'
         };
       default:
         return {
           title: 'Все курсы',
-          description: 'Полный каталог доступных курсов'
+          description: 'Полный каталог курсов'
         };
     }
   };
@@ -42,48 +42,32 @@ const CoursesListPage = () => {
   }, [category]);
 
   const loadCourses = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      setError(null);
-      
-      console.log('=== COURSES LIST: Loading courses for category:', category);
-      
-      let response;
-      
+      let result;
       switch (category) {
         case 'my-courses':
-          response = await coursesAPI.getUserCourses();
+          result = await getUserCourses();
           break;
         case 'available':
-          response = await coursesAPI.getCourses();
-          if (response.success) {
-            // Фильтруем только доступные курсы
-            response.data = response.data.filter(course => course.is_available !== false);
-          }
+          result = await getAvailableCourses();
           break;
-        case 'coming-soon':
-          response = await coursesAPI.getCourses();
-          if (response.success) {
-            // Фильтруем только недоступные курсы
-            response.data = response.data.filter(course => course.is_available === false);
-          }
+        case 'all':
+          result = await getAllCoursesWithPurchaseInfo();
           break;
         default:
-          response = await coursesAPI.getCourses();
-          break;
+          result = await getAllCoursesWithPurchaseInfo();
       }
 
-      console.log('COURSES LIST: API response:', response);
-
-      if (response.success) {
-        setCourses(response.data || []);
-        console.log('COURSES LIST: Courses set:', response.data);
+      if (result.success) {
+        setCourses(result.data || []);
       } else {
-        setError(response.error || 'Ошибка при загрузке курсов');
+        console.error('Error loading courses:', result.error);
+        setCourses([]);
       }
-    } catch (err) {
-      setError('Ошибка при загрузке курсов');
-      console.error('Error loading courses:', err);
+    } catch (error) {
+      console.error('Error loading courses:', error);
+      setCourses([]);
     } finally {
       setLoading(false);
     }
