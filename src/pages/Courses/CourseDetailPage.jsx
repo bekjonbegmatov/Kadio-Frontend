@@ -7,6 +7,8 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import './CourseDetailPage.css';
 
+import UserAvatar from '../../components/DefaultAvatar/UserAvatar';
+
 const CourseDetailPage = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
@@ -297,20 +299,20 @@ const CourseDetailPage = () => {
                   comments.map(comment => (
                     <div key={comment.id} className="comment-item">
                       <div className="comment-avatar">
-                        <img 
-                          src={comment.user?.avatar || '/api/placeholder/40/40'} 
-                          alt={comment.user?.username}
+                        <UserAvatar user={comment.user} />
+                        {/* <img 
+                          src={comment.user?.avatar || 'http://192.168.0.11:8000/media/avatars/97160039_wLg6RWa.png'} 
                           onError={(e) => {
-                            e.target.src = '/api/placeholder/40/40';
+                            e.target.src = 'http://192.168.0.11:8000/media/avatars/97160039_wLg6RWa.png';
                           }}
-                        />
+                        /> */}
                       </div>
                       <div className="comment-content">
                         <div className="comment-header">
                           <span className="comment-author">{comment.user?.username || 'Пользователь'}</span>
                           <span className="comment-date">{new Date(comment.created_at).toLocaleDateString()}</span>
                         </div>
-                        <p className="comment-text">{comment.content}</p>
+                        <p className="comment-text">{comment.text}</p>
                       </div>
                     </div>
                   ))

@@ -275,7 +275,7 @@ const FrendsPage = () => {
   const handleStartChat = async (friendId) => {
     try {
       const chatRoom = await getChatRoom(friendId);
-      navigate(`/chats/${chatRoom.id}`);
+      navigate(`/chats/`);
     } catch (error) {
       console.error('Error creating chat:', error);
       setError('Ошибка при создании чата');

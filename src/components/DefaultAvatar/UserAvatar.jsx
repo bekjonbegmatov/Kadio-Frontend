@@ -1,6 +1,8 @@
 import React from 'react';
 import './UserAvatar.css';
 
+import { BASE_URL } from '../../api/config';
+
 // Функция для генерации хэша из строки
 const hashCode = (str) => {
   let hash = 0;
@@ -47,7 +49,7 @@ const UserAvatar = ({
     return (
       <div className={`user-avatar-container ${className}`} style={{ width: size, height: size }}>
         <img 
-          src={user.avatar} 
+          src={BASE_URL + user.avatar} 
           alt={user.username || 'User'}
           className="user-avatar-image"
           style={{ width: size, height: size }}
