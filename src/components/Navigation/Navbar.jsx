@@ -20,11 +20,11 @@ const Navbar = ({ toggleSidebar }) => {
         </div>
         <div className="navbar-actions">
           <div className="image-item">
-            <img src="https://media.moddb.com/images/mods/1/52/51810/R.png" alt="Diamonds" className='img-icon' srcSet="" />
+            <img src="https://media.moddb.com/images/mods/1/52/51810/R.png" alt="Diamonds" className='img-icon' />
             <span className="-value">{loading ? '...' : (profile?.diamonds || 0)}</span>
           </div>
           <div className="image-item">
-            <img src={coinIcon} width={35} alt="" srcset="" />
+            <img src={coinIcon} width={35} alt="" />
             <span className="-value">{loading ? '...' : (profile?.coins || 0)}</span>
           </div>
 

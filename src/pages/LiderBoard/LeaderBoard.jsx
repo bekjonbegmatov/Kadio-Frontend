@@ -154,7 +154,7 @@ const LeaderBoard = () => {
         <div className="user-stats">
           <div className="stat coins">
             <span className="stat-icon">
-              <img src={coinIcon} width={35} alt="" srcset="" />
+              <img src={coinIcon} width={35} alt="" />
             </span>
             <span className="stat-value">{user.coins}</span>
           </div>

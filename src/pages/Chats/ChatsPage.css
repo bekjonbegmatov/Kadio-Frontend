@@ -1,0 +1,314 @@
+.chats-page {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+  overflow: hidden;
+}
+
+.chats-loading,
+.chats-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 40px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 30px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.chats-loading h2,
+.chats-error h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.chats-loading p,
+.chats-error p {
+  font-size: 16px;
+  margin: 0 0 30px 0;
+  opacity: 0.9;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+.error-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.error-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.retry-btn,
+.home-btn,
+.login-btn,
+.register-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+}
+
+.retry-btn {
+  background: white;
+  color: #667eea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.retry-btn:hover {
+  background: #f8f9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.home-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.home-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.login-btn {
+  background: #1877f2;
+  color: white;
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+}
+
+.login-btn:hover {
+  background: #166fe5;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(24, 119, 242, 0.4);
+}
+
+.register-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.register-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Анимации появления */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chats-loading,
+.chats-error {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.chats-loading > *,
+.chats-error > * {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.chats-loading h2 {
+  animation-delay: 0.1s;
+  animation-fill-mode: both;
+}
+
+.chats-loading p {
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
+}
+
+.error-icon {
+  animation-delay: 0.1s;
+  animation-fill-mode: both;
+}
+
+.chats-error h2 {
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
+}
+
+.chats-error p {
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+
+.error-actions {
+  animation-delay: 0.4s;
+  animation-fill-mode: both;
+}
+
+/* Мобильная адаптивность */
+@media (max-width: 768px) {
+  .chats-loading,
+  .chats-error {
+    padding: 20px 16px;
+  }
+  
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+  }
+  
+  .chats-loading h2,
+  .chats-error h2 {
+    font-size: 24px;
+  }
+  
+  .chats-loading p,
+  .chats-error p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  .error-icon {
+    font-size: 60px;
+    margin-bottom: 16px;
+  }
+  
+  .error-actions {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .retry-btn,
+  .home-btn,
+  .login-btn,
+  .register-btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chats-loading,
+  .chats-error {
+    padding: 16px 12px;
+  }
+  
+  .chats-loading h2,
+  .chats-error h2 {
+    font-size: 20px;
+  }
+  
+  .chats-loading p,
+  .chats-error p {
+    font-size: 13px;
+  }
+  
+  .error-icon {
+    font-size: 48px;
+  }
+}
+
+/* Улучшенные градиенты для разных состояний */
+.chats-loading {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.chats-error {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* Дополнительные эффекты */
+.loading-spinner {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.retry-btn:active,
+.home-btn:active,
+.login-btn:active,
+.register-btn:active {
+  transform: translateY(0);
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+  .chats-page {
+    background: #18191a;
+  }
+  
+  .chats-loading {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+  }
+  
+  .chats-error {
+    background: linear-gradient(135deg, #742a2a 0%, #9b2c2c 100%);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation: none;
+  }
+  
+  .chats-loading,
+  .chats-error,
+  .chats-loading > *,
+  .chats-error > * {
+    animation: none;
+  }
+  
+  .retry-btn:hover,
+  .home-btn:hover,
+  .login-btn:hover,
+  .register-btn:hover {
+    transform: none;
+  }
+}
+
+/* Focus states для доступности */
+.retry-btn:focus,
+.home-btn:focus,
+.login-btn:focus,
+.register-btn:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
