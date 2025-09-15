@@ -30,7 +30,7 @@ const Sidebar = ({ width = 380, isCollapsed = false, onToggle }) => {
   const gameItems = [
     { id: 'challenges', name: 'Челленджи', icon: FiTarget, badge: null, link: '/challenges' },
     { id: 'leaderboard', name: 'Leaderboard', icon: IoTrophyOutline, badge: null, link: '/leaderboard' },
-    { id: 'contests', name: 'Конкурсы', icon: FiAward, badge: null, link: '/contests' }
+    { id: 'giveaways', name: 'Конкурсы', icon: FiAward, badge: null, link: '/giveaways' }
   ];
 
 

@@ -18,6 +18,11 @@ import CoursesListPage from '../pages/Courses/CoursesListPage';
 import CourseDetailPage from '../pages/Courses/CourseDetailPage';
 import LessonPage from '../pages/Courses/LessonPage';
 
+// Giveaways Pages
+import GiveawaysPage from '../pages/Giveaways/GiveawaysPage';
+import CreateGiveawayPage from '../pages/Giveaways/CreateGiveawayPage';
+import GiveawayDetailPage from '../pages/Giveaways/GiveawayDetailPage';
+
 const AppRouter = () => {
   const userIsAuthenticated = isAuthenticated();
 
@@ -47,6 +52,11 @@ const AppRouter = () => {
             <Route path="/courses/all" element={<CoursesListPage category="all" />} />
             <Route path="/courses/:courseId" element={<CourseDetailPage />} />
             <Route path="/courses/:courseId/lessons/:lessonId" element={<LessonPage />} />
+            
+            {/* Giveaways Routes */}
+            <Route path="/giveaways" element={<GiveawaysPage />} />
+            <Route path="/giveaways/create" element={<CreateGiveawayPage />} />
+            <Route path="/giveaways/:id" element={<GiveawayDetailPage />} />
 
           </Routes>
         </Layout>
