@@ -1,0 +1,20 @@
+/* FeedPage.css */
+.feed-page {
+  min-height: 100vh;
+  background: var(--gray-50);
+  padding: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .feed-page {
+    background: var(--white);
+  }
+}
+
+/* Темная тема (если потребуется) */
+@media (prefers-color-scheme: dark) {
+  .feed-page {
+    background: var(--gray-900, #111827);
+  }
+}

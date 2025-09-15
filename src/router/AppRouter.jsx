@@ -23,6 +23,9 @@ import GiveawaysPage from '../pages/Giveaways/GiveawaysPage';
 import CreateGiveawayPage from '../pages/Giveaways/CreateGiveawayPage';
 import GiveawayDetailPage from '../pages/Giveaways/GiveawayDetailPage';
 
+// Feed Page
+import FeedPage from '../pages/Feed/FeedPage';
+
 const AppRouter = () => {
   const userIsAuthenticated = isAuthenticated();
 
@@ -45,6 +48,7 @@ const AppRouter = () => {
             <Route path="/friends" element={<FriendsPage />} />
             <Route path="/leaderboard" element={<LeaderBoard />} />
             <Route path="/chats" element={<ChatsPage />} />
+            <Route path="/feed" element={<FeedPage />} />
             
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/courses/my" element={<CoursesListPage category="my-courses" />} />
