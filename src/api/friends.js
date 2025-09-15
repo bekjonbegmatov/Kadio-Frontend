@@ -71,6 +71,50 @@ export const getFriendRecommendations = async (limit = 10) => {
   }
 };
 
+
+
+// Получить запросы дружбы (входящие и исходящие)
+export const getFriendRequests = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/friends/requests/`, {
+      headers: {
+        'Authorization': `Token ${getAuthToken()}`,
+      },
+    });
+    return {
+      success: true,
+      data: response.data
+    };
+  } catch (error) {
+    console.error('Error fetching friend requests:', error);
+    return {
+      success: false,
+      error: error.response?.data || error.message
+    };
+  }
+};
+
+// Search users by email, name, or interests
+export const searchUsers = async (query) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/friends/search/`, {
+      params: { q: query },
+      headers: {
+        'Authorization': `Token ${getAuthToken()}`,
+      },
+    });
+    return {
+      success: true,
+      data: response.data
+    };
+  } catch (error) {
+    console.error('Error searching users:', error);
+    return {
+      success: false,
+      error: error.response?.data || error.message
+    };
+  }
+};
 // Отправить запрос в друзья
 export const sendFriendRequest = async (toUserId) => {
   try {
@@ -88,27 +132,6 @@ export const sendFriendRequest = async (toUserId) => {
     };
   } catch (error) {
     console.error('Error sending friend request:', error);
-    return {
-      success: false,
-      error: error.response?.data || error.message
-    };
-  }
-};
-
-// Получить запросы дружбы (входящие и исходящие)
-export const getFriendRequests = async () => {
-  try {
-    const response = await axios.get(`${BASE_URL}/api/friends/requests/`, {
-      headers: {
-        'Authorization': `Token ${getAuthToken()}`,
-      },
-    });
-    return {
-      success: true,
-      data: response.data
-    };
-  } catch (error) {
-    console.error('Error fetching friend requests:', error);
     return {
       success: false,
       error: error.response?.data || error.message
