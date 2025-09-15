@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getUserFriends } from '../../api/friends';
 import { getCurrentUser } from '../../api/auth';
-import { API_BASE_URL } from '../../api/config';
+import { BASE_URL } from '../../api/config';
 import DefaultAvatar from '../../components/DefaultAvatar/DefaultAvatar';
 import FriendRecommendations from '../../components/FriendRecommendations/FriendRecommendations';
 import FriendRequests from '../../components/FriendRequests/FriendRequests';
@@ -83,7 +83,7 @@ const FrendsPage = () => {
         <td className="friend-avatar">
           {friend.avatar_url && friend.avatar_url.trim() && friend.avatar_url.trim() !== '' ? (
             <img 
-              src={`${API_BASE_URL}${friend.avatar_url}`} 
+              src={`${BASE_URL}${friend.avatar_url}`} 
               alt={friend.full_name || friend.username}
               className="avatar-image"
             />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './FriendRequests.css';
 import { getFriendRequests, sendFriendRequest } from '../../api/friends';
-import { API_BASE_URL } from '../../api/config';
+import { BASE_URL } from '../../api/config';
 import DefaultAvatar from '../DefaultAvatar/DefaultAvatar';
 
 const FriendRequests = ({ currentUserId }) => {
@@ -75,7 +75,7 @@ const FriendRequests = ({ currentUserId }) => {
   const getAvatarUrl = (avatarUrl) => {
     if (!avatarUrl || !avatarUrl.trim()) return null;
     if (avatarUrl.startsWith('http')) return avatarUrl;
-    return `${API_BASE_URL}${avatarUrl}`;
+    return `${BASE_URL}${avatarUrl}`;
   };
 
   const formatDate = (dateString) => {

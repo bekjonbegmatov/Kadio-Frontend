@@ -11,6 +11,7 @@ import { isAuthenticated } from '../api/auth';
 
 // Pages
 import FriendsPage from '../pages/Frends/FrendsPage';
+import LeaderBoard from '../pages/LiderBoard/LeaderBoard';
 
 const AppRouter = () => {
   const userIsAuthenticated = isAuthenticated();
@@ -32,6 +33,7 @@ const AppRouter = () => {
             <Route path="/auth" element={<Navigate to="/" replace />} />
 
             <Route path="/friends" element={<FriendsPage />} />
+            <Route path="/leaderboard" element={<LeaderBoard />} />
 
           </Routes>
         </Layout>

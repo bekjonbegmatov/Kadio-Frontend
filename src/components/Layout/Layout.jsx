@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
           marginLeft: isSidebarCollapsed ? '60px' : `${sidebarWidth}px`,
           marginTop: '60px',
           padding: '20px',
-          backgroundColor: '#ffffff',
+          // backgroundColor: '#ffffff',
           minHeight: 'calc(100vh - 60px)',
           transition: 'margin-left 0.3s ease'
         }}

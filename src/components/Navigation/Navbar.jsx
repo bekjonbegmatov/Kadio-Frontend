@@ -6,7 +6,7 @@ import { useProfile } from '../../store/ProfileContext';
 import './Navbar.css';
 
 import owl from '../../assets/img/navbar/owl.png';
-
+import coinIcon from '../../assets/img/coin.png';
 const Navbar = ({ toggleSidebar }) => {
   const { profile, loading } = useProfile();
   return (
@@ -15,7 +15,7 @@ const Navbar = ({ toggleSidebar }) => {
         <div className="navbar-brand">
           <div className="logo">
             <img src={owl} alt="logo" width={70} />
-            <span className="logo-text">EdFlow - Kut busang ham odam bul</span>
+            <span className="logo-text">EdFlow</span>
           </div>
         </div>
         <div className="navbar-actions">
@@ -24,7 +24,7 @@ const Navbar = ({ toggleSidebar }) => {
             <span className="-value">{loading ? '...' : (profile?.diamonds || 0)}</span>
           </div>
           <div className="image-item">
-            <img src="https://cdn3.iconfinder.com/data/icons/video-game-25/64/Trophy-winner-gaming-electronics-compettition-512.png" alt="Coins" className='img-icon' srcSet="" />
+            <img src={coinIcon} width={35} alt="" srcset="" />
             <span className="-value">{loading ? '...' : (profile?.coins || 0)}</span>
           </div>
 
