@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getUserFriends } from '../../api/friends';
 import { getCurrentUser } from '../../api/auth';
+import { getChatRoom } from '../../api/chat.js';
+import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../../api/config';
 import DefaultAvatar from '../../components/DefaultAvatar/DefaultAvatar';
 import FriendRecommendations from '../../components/FriendRecommendations/FriendRecommendations';
@@ -15,6 +17,7 @@ const FrendsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeSection, setActiveSection] = useState('friends');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,12 +107,25 @@ const FrendsPage = () => {
         <td className="friend-email">{friend.email || 'Не указан'}</td>
         <td className="friend-birth-date">{formatDate(friend.date_of_birth)}</td>
         <td className="friend-actions">
-          <button className="message-btn" disabled>
+          <button 
+            className="message-btn"
+            onClick={() => handleStartChat(friend.id)}
+          >
             Написать сообщение
           </button>
         </td>
       </tr>
     );
+  };
+
+  const handleStartChat = async (friendId) => {
+    try {
+      const chatRoom = await getChatRoom(friendId);
+      navigate(`/chats/${chatRoom.id}`);
+    } catch (error) {
+      console.error('Error creating chat:', error);
+      setError('Ошибка при создании чата');
+    }
   };
 
   const refreshData = async () => {

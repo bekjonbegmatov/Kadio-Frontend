@@ -41,7 +41,7 @@ const ChatWindow = ({ room, currentUser }) => {
     try {
       setLoading(true)
       const data = await getChatMessages(room.id)
-      setMessages(data.messages.reverse()) // Реверсируем, чтобы новые сообщения были внизу
+      setMessages(data.messages) // Сообщения уже в правильном порядке: старые вверху, новые внизу
       setError(null)
     } catch (err) {
       setError('Ошибка загрузки сообщений')

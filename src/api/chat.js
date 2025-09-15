@@ -72,8 +72,8 @@ export const getChatMessages = async (roomId, page = 1, pageSize = 50) => {
   if (!token) {
     throw new Error('No token found')
   }
-
   const response = await fetch(`${API_BASE_URL}/chat/rooms/${roomId}/messages/?page=${page}&page_size=${pageSize}`, {
+  // const response = await fetch(`${API_BASE_URL}/chat/rooms/${roomId}/messages/`, {
     method: 'GET',
     headers: {
       'Authorization': `Token ${token}`,

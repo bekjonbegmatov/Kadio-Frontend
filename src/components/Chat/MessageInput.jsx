@@ -66,24 +66,37 @@ const MessageInput = ({ onSendMessage, onTyping, disabled = false }) => {
   }
 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  const emojiTimeoutRef = useRef(null)
 
   const handleEmojiClick = (emoji) => {
     setMessage(prev => prev + emoji)
     textareaRef.current?.focus()
     setTimeout(adjustTextareaHeight, 0)
-    setShowEmojiPicker(false)
   }
 
-  const toggleEmojiPicker = () => {
-    setShowEmojiPicker(!showEmojiPicker)
+  const handleEmojiMouseEnter = () => {
+    if (emojiTimeoutRef.current) {
+      clearTimeout(emojiTimeoutRef.current)
+    }
+    setShowEmojiPicker(true)
   }
 
-  const commonEmojis = ['😊', '😂', '❤️', '👍', '👎', '😢', '😮', '😡', '🎉', '🔥']
+  const handleEmojiMouseLeave = () => {
+    emojiTimeoutRef.current = setTimeout(() => {
+      setShowEmojiPicker(false)
+    }, 300) // Небольшая задержка для удобства
+  }
+
+  const commonEmojis = ['😊','💩', '😂', '❤️', '👍', '👎', '😢', '😮', '😡', '🎉', '🔥']
 
   return (
     <div className="message-input-container">
       {showEmojiPicker && (
-        <div className="emoji-picker">
+        <div 
+          className="emoji-picker"
+          onMouseEnter={handleEmojiMouseEnter}
+          onMouseLeave={handleEmojiMouseLeave}
+        >
           <div className="emoji-grid">
             {commonEmojis.map((emoji, index) => (
               <button
@@ -100,56 +113,55 @@ const MessageInput = ({ onSendMessage, onTyping, disabled = false }) => {
         </div>
       )}
       
-      <div className="message-input">
-        <div className="input-wrapper">
-          <button
-            onClick={toggleEmojiPicker}
-            disabled={disabled}
-            className="emoji-toggle-btn"
-            type="button"
-            title="Стикеры"
-          >
-            😊
-          </button>
-          
-          <textarea
-            ref={textareaRef}
-            value={message}
-            onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
-            placeholder={disabled ? 'Подключение...' : 'Введите сообщение...'}
-            disabled={disabled}
-            rows={1}
-            className="message-textarea"
-          />
-          
-          <button
-            onClick={handleSendMessage}
-            disabled={!message.trim() || disabled}
-            className="send-btn"
-            type="button"
-          >
-            <svg 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path 
-                d="M2 21L23 12L2 3V10L17 12L2 14V21Z" 
-                fill="currentColor"
-              />
-            </svg>
-          </button>
-        </div>
+      <div className="input-wrapper">
+        <button
+          onMouseEnter={handleEmojiMouseEnter}
+          onMouseLeave={handleEmojiMouseLeave}
+          disabled={disabled}
+          className="emoji-toggle-btn"
+          type="button"
+          title="Эмодзи"
+        >
+          😊
+        </button>
         
-        {disabled && (
-          <div className="connection-warning">
-            Подключение к чату...
-          </div>
-        )}
+        <textarea
+          ref={textareaRef}
+          value={message}
+          onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
+          placeholder={disabled ? 'Подключение...' : 'Введите сообщение...'}
+          disabled={disabled}
+          rows={1}
+          className="message-textarea"
+        />
+        
+        <button
+          onClick={handleSendMessage}
+          disabled={!message.trim() || disabled}
+          className="send-btn"
+          type="button"
+        >
+          <svg 
+            width="20" 
+            height="20" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path 
+              d="M2 21L23 12L2 3V10L17 12L2 14V21Z" 
+              fill="currentColor"
+            />
+          </svg>
+        </button>
       </div>
+        
+      {disabled && (
+        <div className="connection-warning">
+          Подключение к чату...
+        </div>
+      )}
     </div>
   )
 }

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import Chat from '../../components/Chat/Chat'
+import ChatRoomList from '../../components/Chat/ChatRoomList'
+import ChatWindow from '../../components/Chat/ChatWindow'
 import './ChatsPage.css'
-
+import { getUserProfile } from '../../api/auth'
 const ChatsPage = () => {
   const [currentUser, setCurrentUser] = useState(null)
+  const [selectedRoom, setSelectedRoom] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -14,21 +16,10 @@ const ChatsPage = () => {
       try {
         setLoading(true)
         
-        // Временные данные пользователя для демонстрации
-        // В реальном приложении замените на реальный API вызов
-        const userData = {
-          id: 1,
-          username: 'current_user',
-          first_name: 'Текущий',
-          last_name: 'Пользователь',
-          email: 'user@example.com',
-          avatar: null
-        }
-        
-        // Симуляция задержки сети
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        
-        setCurrentUser(userData)
+        const userDataFromAPI = await getUserProfile()
+        if (userDataFromAPI.success) {
+          setCurrentUser(userDataFromAPI.data)
+        }        
       } catch (err) {
         console.error('Ошибка загрузки пользователя:', err)
         setError('Не удалось загрузить данные пользователя')
@@ -107,9 +98,34 @@ const ChatsPage = () => {
     )
   }
 
+  const handleRoomSelect = (room) => {
+    setSelectedRoom(room)
+  }
+
   return (
     <div className="chats-page">
-      <Chat currentUser={currentUser} />
+      <div className="chats-layout">
+        <div className="chats-sidebar">
+          <ChatRoomList 
+            onSelectRoom={handleRoomSelect}
+            selectedRoomId={selectedRoom?.id}
+          />
+        </div>
+        <div className="chats-main">
+          {selectedRoom ? (
+            <ChatWindow 
+              room={selectedRoom}
+              currentUser={currentUser}
+            />
+          ) : (
+            <div className="no-chat-selected">
+              <div className="no-chat-icon">💬</div>
+              <h3>Выберите чат</h3>
+              <p>Выберите чат из списка слева или создайте новый чат с друзьями</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
