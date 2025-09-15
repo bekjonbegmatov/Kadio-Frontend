@@ -13,6 +13,10 @@ import { isAuthenticated } from '../api/auth';
 import FriendsPage from '../pages/Frends/FrendsPage';
 import LeaderBoard from '../pages/LiderBoard/LeaderBoard';
 import ChatsPage from '../pages/Chats/ChatsPage';
+import CoursesPage from '../pages/Courses/CoursesPage';
+import CoursesListPage from '../pages/Courses/CoursesListPage';
+import CourseDetailPage from '../pages/Courses/CourseDetailPage';
+import LessonPage from '../pages/Courses/LessonPage';
 
 const AppRouter = () => {
   const userIsAuthenticated = isAuthenticated();
@@ -36,6 +40,13 @@ const AppRouter = () => {
             <Route path="/friends" element={<FriendsPage />} />
             <Route path="/leaderboard" element={<LeaderBoard />} />
             <Route path="/chats" element={<ChatsPage />} />
+            <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/courses/my" element={<CoursesListPage category="my" />} />
+            <Route path="/courses/available" element={<CoursesListPage category="available" />} />
+            <Route path="/courses/coming-soon" element={<CoursesListPage category="coming-soon" />} />
+            <Route path="/courses/all" element={<CoursesListPage category="all" />} />
+            <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+            <Route path="/courses/:courseId/lessons/:lessonId" element={<LessonPage />} />
 
           </Routes>
         </Layout>

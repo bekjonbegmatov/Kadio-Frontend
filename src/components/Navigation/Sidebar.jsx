@@ -23,6 +23,10 @@ const Sidebar = ({ width = 380, isCollapsed = false, onToggle }) => {
     { id: 'groups', name: 'Группы', icon: HiUserGroup, badge: null, link: '/groups' }
   ];
 
+  const educationItems = [
+    { id: 'courses', name: 'Курсы', icon: FiBook, badge: null, link: '/courses' }
+  ];
+
   const gameItems = [
     { id: 'challenges', name: 'Челленджи', icon: FiTarget, badge: null, link: '/challenges' },
     { id: 'leaderboard', name: 'Leaderboard', icon: IoTrophyOutline, badge: null, link: '/leaderboard' },
@@ -74,6 +78,30 @@ const Sidebar = ({ width = 380, isCollapsed = false, onToggle }) => {
         )}
         
         {socialItems.map(item => (
+          <Link 
+            key={item.id}
+            to={item.link}
+            className={`menu-item ${activeItem === item.id ? 'active' : ''}`}
+            onClick={() => handleItemClick(item.id)}
+          >
+            <span className="menu-icon"><item.icon /></span>
+            {!isCollapsed && (
+              <>
+                <span className="menu-name">{item.name}</span>
+                {item.badge && <span className="menu-badge">{item.badge}</span>}
+              </>
+            )}
+          </Link>
+        ))}
+        
+        {/* Образовательная секция */}
+        {!isCollapsed && (
+          <div className="section-divider">
+            <span className="section-label">Образование</span>
+          </div>
+        )}
+        
+        {educationItems.map(item => (
           <Link 
             key={item.id}
             to={item.link}

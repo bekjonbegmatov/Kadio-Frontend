@@ -11,14 +11,26 @@ const ChatWindow = ({ room, currentUser }) => {
   const [error, setError] = useState(null)
   const [typingUsers, setTypingUsers] = useState(new Set())
   const [wsConnected, setWsConnected] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [hasMoreMessages, setHasMoreMessages] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
   
   const messagesEndRef = useRef(null)
+  const messagesContainerRef = useRef(null)
   const wsRef = useRef(null)
   const typingTimeoutRef = useRef(null)
+  const isInitialLoad = useRef(true)
 
   useEffect(() => {
     if (room) {
-      loadMessages()
+      // Сбрасываем состояние при смене комнаты
+      setMessages([])
+      setCurrentPage(1)
+      setHasMoreMessages(true)
+      setLoadingMore(false)
+      isInitialLoad.current = true
+      
+      loadMessages(1)
       connectWebSocket()
       markAsRead()
     }
@@ -37,17 +49,35 @@ const ChatWindow = ({ room, currentUser }) => {
     scrollToBottom()
   }, [messages])
 
-  const loadMessages = async () => {
+  const loadMessages = async (page = 1, append = false) => {
     try {
-      setLoading(true)
-      const data = await getChatMessages(room.id)
-      setMessages(data.messages) // Сообщения уже в правильном порядке: старые вверху, новые внизу
+      if (page === 1) {
+        setLoading(true)
+        isInitialLoad.current = true
+      } else {
+        setLoadingMore(true)
+      }
+      
+      const data = await getChatMessages(room.id, page)
+      
+      if (append) {
+        // Добавляем старые сообщения в начало списка
+        setMessages(prev => [...data.messages, ...prev])
+      } else {
+        // Первая загрузка - заменяем все сообщения
+        setMessages(data.messages)
+      }
+      
+      // Проверяем есть ли еще сообщения
+      setHasMoreMessages(data.messages.length === data.page_size)
+      setCurrentPage(page)
       setError(null)
     } catch (err) {
       setError('Ошибка загрузки сообщений')
       console.error('Error loading messages:', err)
     } finally {
       setLoading(false)
+      setLoadingMore(false)
     }
   }
 
@@ -179,8 +209,38 @@ const ChatWindow = ({ room, currentUser }) => {
     }
   }
 
+  const loadMoreMessages = async () => {
+    if (!hasMoreMessages || loadingMore) return
+    
+    const nextPage = currentPage + 1
+    const scrollHeight = messagesContainerRef.current?.scrollHeight
+    
+    await loadMessages(nextPage, true)
+    
+    // Сохраняем позицию прокрутки после загрузки новых сообщений
+    if (messagesContainerRef.current && scrollHeight) {
+      const newScrollHeight = messagesContainerRef.current.scrollHeight
+      messagesContainerRef.current.scrollTop = newScrollHeight - scrollHeight
+    }
+  }
+
+  const handleScroll = (e) => {
+    const { scrollTop } = e.target
+    
+    // Если прокрутили в самый верх, загружаем старые сообщения
+    if (scrollTop === 0 && hasMoreMessages && !loadingMore) {
+      loadMoreMessages()
+    }
+  }
+
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (isInitialLoad.current) {
+      // При первой загрузке прокручиваем сразу без анимации
+      messagesEndRef.current?.scrollIntoView({ behavior: 'auto' })
+      isInitialLoad.current = false
+    } else {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   const formatMessageTime = (timestamp) => {
@@ -329,13 +389,20 @@ const ChatWindow = ({ room, currentUser }) => {
         </div>
       )}
 
-      <div className="chat-messages">
+      <div className="chat-messages" ref={messagesContainerRef} onScroll={handleScroll}>
         {error && (
           <div className="error-message">
             {error}
-            <button onClick={loadMessages} className="retry-btn">
+            <button onClick={() => loadMessages(1)} className="retry-btn">
               Повторить
             </button>
+          </div>
+        )}
+        
+        {loadingMore && (
+          <div className="loading-more">
+            <div className="loading-spinner"></div>
+            <span>Загрузка старых сообщений...</span>
           </div>
         )}
         

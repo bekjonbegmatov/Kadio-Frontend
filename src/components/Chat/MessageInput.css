@@ -81,7 +81,7 @@
 
 .message-textarea::-webkit-scrollbar-thumb {
   background: #bdc3c7;
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
 }
 
 .message-textarea::-webkit-scrollbar-thumb:hover {

@@ -1,0 +1,201 @@
+.user-avatar-container {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.user-avatar-image {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.user-avatar-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.user-avatar-fallback {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, var(--bg-color, #4f46e5) 0%, var(--bg-color, #7c3aed) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.user-avatar-fallback::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+
+.user-avatar-fallback:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.user-avatar-fallback:hover::before {
+  opacity: 1;
+  animation: shimmer 1.5s ease-in-out;
+}
+
+.online-status {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  background: #10b981;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.online-status::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: #10b981;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-online 2s infinite;
+}
+
+/* Размеры для разных вариантов */
+.user-avatar-container.small {
+  width: 32px;
+  height: 32px;
+}
+
+.user-avatar-container.small .user-avatar-image,
+.user-avatar-container.small .user-avatar-fallback {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+  border-width: 2px;
+}
+
+.user-avatar-container.small .online-status {
+  width: 10px;
+  height: 10px;
+  bottom: 0;
+  right: 0;
+}
+
+.user-avatar-container.large {
+  width: 64px;
+  height: 64px;
+}
+
+.user-avatar-container.large .user-avatar-image,
+.user-avatar-container.large .user-avatar-fallback {
+  width: 64px;
+  height: 64px;
+  font-size: 24px;
+  border-width: 4px;
+}
+
+.user-avatar-container.large .online-status {
+  width: 18px;
+  height: 18px;
+  bottom: 3px;
+  right: 3px;
+}
+
+.user-avatar-container.extra-large {
+  width: 96px;
+  height: 96px;
+}
+
+.user-avatar-container.extra-large .user-avatar-image,
+.user-avatar-container.extra-large .user-avatar-fallback {
+  width: 96px;
+  height: 96px;
+  font-size: 36px;
+  border-width: 4px;
+}
+
+.user-avatar-container.extra-large .online-status {
+  width: 24px;
+  height: 24px;
+  bottom: 4px;
+  right: 4px;
+}
+
+/* Анимации */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+@keyframes pulse-online {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.4);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+  .user-avatar-image,
+  .user-avatar-fallback {
+    border-color: #374151;
+  }
+  
+  .online-status {
+    border-color: #374151;
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .user-avatar-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .user-avatar-image,
+  .user-avatar-fallback {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .online-status {
+    width: 12px;
+    height: 12px;
+  }
+}

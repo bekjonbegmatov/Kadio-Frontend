@@ -22,7 +22,7 @@
 .markdown-text code {
   background-color: #f8f9fa;
   border: 1px solid #e9ecef;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   padding: 2px 4px;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   font-size: 0.9em;
@@ -32,8 +32,7 @@
 .markdown-text br {
   line-height: 1.6;
 }
-
-/* Для темной темы, если понадобится */
+/* 
 @media (prefers-color-scheme: dark) {
   .markdown-text {
     color: #e9ecef;
@@ -52,4 +51,4 @@
     border-color: #495057;
     color: #f8d7da;
   }
-}
+} */
